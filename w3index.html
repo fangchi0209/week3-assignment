@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Zoo</title>
+
+
+</head>
+
+<body>
+	<style>
+		body {
+			font-size: 20px;
+			margin: 0px;
+			background-color: #F5F5DC;
+		}
+
+		nav {
+			display: flex;
+		}
+
+		nav>.myzoo {
+			flex: auto;
+			margin: 10px;
+			align-items: center;
+		}
+
+		nav>.menu {
+			flex: none;
+			margin: 10px;
+		}
+
+		nav>.hamburger {
+			flex: none;
+			width: 40px;
+			margin: 10px;
+			display: none;
+		}
+
+		.head {
+			font-size: 40px;
+			font-weight: bold;
+			text-align: center;
+			justify-content: center;
+			margin-bottom: 20px;
+			height: 300px;
+			line-height: 300px;
+			background-color: #F9966B;
+		}
+
+		.content {
+			width: 1200px;
+			margin: 0 auto;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		.img {
+			background-image: url("../Week\ 1/#F9966B");
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 100%;
+			height: 100%;
+
+		}
+
+		.text {
+
+			width: 100%;
+			/* margin: 0% 5% 5% 5%; */
+			padding: 5px 0px;
+			text-align: center;
+			background-color: yellow;
+
+		}
+
+
+
+		.box {
+			flex: none;
+			position: relative;
+			width: 20%;
+			height: 200px;
+			margin-left: 3%;
+			margin-bottom: 50px;
+			/* padding: 5px; */
+			background-color: #F9966B;
+
+		}
+
+
+
+		@media (max-width:1199px) {
+			.content {
+				width: 90%;
+			}
+
+			main>.box {
+				width: 45%;
+			}
+
+			nav>.menu {
+				display: block;
+			}
+
+			nav>.hamburger {
+				display: none;
+			}
+		}
+
+		@media (max-width:599px) {
+
+			.content {
+				width: 90%;
+			}
+
+			main>.box {
+				width: 90%;
+			}
+
+			nav>.menu {
+				display: none;
+			}
+
+			nav>.hamburger {
+				display: block;
+			}
+		}
+	</style>
+
+
+	<nav>
+		<div class="myzoo">MyZoo</div>
+		<div class="menu">Item1</div>
+		<div class="menu">Item2</div>
+		<div class="menu">Item3</div>
+		<div class="menu">Item4</div>
+		<div class="hamburger"><img src="menuicon.jpg"></div>
+	</nav>
+
+	<div class="head">Welcome to MyZoo</div>
+
+
+	<main class="content">
+		<!-- <div class="box">
+			<div class="img"></div> -->
+			<!-- <div class="text">Ｚebra 1</div> -->
+		<!-- </div> -->
+		<!-- <div class="box">
+			<div class="img"></div> -->
+			<!-- <div class="text">Zebra 2</div> -->
+		<!-- </div>
+		<div class="box">
+			<div class="img"></div> -->
+			<!-- <div class="text">Zebra 3</div> -->
+		<!-- </div>
+		<div class="box">
+			<div class="img"></div> -->
+			<!-- <div class="text">Zebra 4</div> -->
+		<!-- </div>
+		<div class="box">
+			<div class="img"></div> -->
+			<!-- <div class="text">Zebra 5</div> -->
+		<!-- </div>
+		<div class="box">
+			<div class="img"></div> -->
+			<!-- <div class="text">Zebra 6</div> -->
+		<!-- </div>
+		<div class="box">
+			<div class="img"></div> -->
+			<!-- <div class="text">Zebra 7</div> -->
+		<!-- </div>
+		<div class="box">
+			<div class="img"></div> -->
+			<!-- <div class="text">Zebra 8</div> -->
+		<!-- </div> -->
+
+
+
+
+
+
+
+	</main>
+	<div style="text-align: center;padding:10px"><button onclick="morePic()" style="padding: 10px">Load</button></div>
+
+	<script>
+
+		let data; 
+		let cur_pag=0;
+		let last_pag=8;
+		let content = document.getElementsByClassName("content")[0];
+
+		fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions.json")
+			.then(response => {
+				return response.json();
+			}).then(r => {
+
+				data = r.result.results;
+				find_pic(data,cur_pag,last_pag)
+
+			});
+			function find_pic(data_source,cur,last){
+				for (let n = cur; n <last; n++) {
+					let attraction = data_source[0].stitle;
+					let pic = "http" + data_source[0].file.split("http")[1];
+					let pic_name = document.createTextNode(data_source[n].stitle)
+					let uw = document.createElement("div");
+					let uc=document.createElement("div")
+					uc.classList.add("img")
+					uc.style.backgroundImage = 'url(http' + data_source[n].file.split("http")[1] + ')'
+					let ua=document.createElement("div")
+					ua.classList.add("box")
+					uw.classList.add("text")
+					uw.appendChild(pic_name)
+					// ux[n].appendChild(uw)
+					ua.appendChild(uc)
+					ua.appendChild(uw)
+					content.appendChild(ua)
+
+				}
+				cur_pag+=8
+				last_pag+=8
+			}
+
+
+		function morePic() {
+				
+			find_pic(data,cur_pag,last_pag)
+
+		}
+
+
+
+
+
+
+
+
+
+
+	</script>
+
+
+
+
+</body>
+
+</html>
